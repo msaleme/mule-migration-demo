@@ -57,3 +57,16 @@ AI Analysis → Automated Suggestions → Validated Results
 ✅ Automated code suggestions are applied successfully
 ✅ MUnit tests are generated and pass
 ✅ Governance validation completes without errors
+
+## 📁 Project Structure
+
+```
+mule-migration-demo/
+├── README.md                    # Demo overview
+├── DEMO_INSTRUCTIONS.md         # Demo instructions  
+├── package.json                 # Node.js configuration
+├── demo-script.js              # Interactive demo script
+├── setup/
+│   └── install-mcp-server.sh  # MCP Server installation
+├── sample-project-4.3/         # Legacy Mule 4.3 project
+│   ├── pom.xml                 # Maven co
