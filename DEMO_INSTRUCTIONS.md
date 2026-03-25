@@ -23,7 +23,50 @@ npm install
 npm run demo:start
 ```
 
-#### Option 2: Step-by-Step Manual Demo
+#### Option 2: Anypoint Code Builder Setup (Recommended for Development)
+
+**🚨 IMPORTANT: Anypoint Code Builder Workspace Configuration**
+
+Anypoint Code Builder requires Mule projects to be at the workspace root level. Follow these steps:
+
+```bash
+# 1. Open VS Code in the parent directory
+cd /Users/msaleme/acb-projects
+code .
+
+# 2. Add individual Mule projects to workspace:
+# File -> Add Folder to Workspace -> Select 'sample-project-4.3'
+# File -> Add Folder to Workspace -> Select 'modernized-project-4.9'
+
+# Alternative: Use multi-root workspace file
+# Create a workspace file with the configuration below
+```
+
+**Create `mule-migration-demo.code-workspace` file:**
+```json
+{
+    "folders": [
+        {
+            "name": "Demo Overview", 
+            "path": "./mule-migration-demo"
+        },
+        {
+            "name": "Legacy 4.3 Project",
+            "path": "./mule-migration-demo/sample-project-4.3"
+        },
+        {
+            "name": "Modernized 4.9 Project", 
+            "path": "./mule-migration-demo/modernized-project-4.9"
+        }
+    ],
+    "settings": {
+        "mulesoft.platform.environment": "Sandbox",
+        "java.configuration.updateBuildConfiguration": "automatic"
+    }
+}
+```
+
+#### Option 3: Step-by-Step Manual Demo
 ```bash
 # 1. Install MCP Server
 chmod +x setup/install-mcp-server.sh

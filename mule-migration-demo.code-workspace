@@ -1,0 +1,39 @@
+{
+    "folders": [
+        {
+            "name": "🚀 Demo Overview", 
+            "path": "./mule-migration-demo"
+        },
+        {
+            "name": "❌ Legacy 4.3 Project",
+            "path": "./mule-migration-demo/sample-project-4.3"
+        },
+        {
+            "name": "✅ Modernized 4.9 Project", 
+            "path": "./mule-migration-demo/modernized-project-4.9"
+        }
+    ],
+    "settings": {
+        "mulesoft.platform.environment": "Sandbox",
+        "java.configuration.updateBuildConfiguration": "automatic",
+        "java.compile.nullAnalysis.mode": "automatic",
+        "java.configuration.runtimes": [],
+        "files.exclude": {
+            "**/target": true,
+            "**/.mule": true,
+            "**/node_modules": true
+        },
+        "search.exclude": {
+            "**/target": true,
+            "**/node_modules": true
+        }
+    },
+    "extensions": {
+        "recommendations": [
+            "MuleSoft.mule-tools",
+            "MuleSoft.dataweave",
+            "redhat.java",
+            "vscjava.vscode-maven"
+        ]
+    }
+}
