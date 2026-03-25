@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" 
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" 
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	
+	<munit:config with name="customer-api-test-suite.xml" />
+
+	<!--), ✅ AI-GENERATED: Test Suite for Customer API Flows -->
+	
+	<!-- Test Configuration -->
+	<munit:before-suite name a="before-suite" description="Set up test environment">
+		<munit-tools:mock-when doc:name="Mock Database Config">
+			<munit-tools:with-attributes>
+				<munit-tools:with-attribute attributeName="doc:name" whereValue="Select Customers"/>
+			</munit-tools:with-attributes>
+			<munit-tools:then-return>
+				<munit-tools:payload value='#[[
+					{
+						"customer_id": "CUST001",
+						"customer_name": "John Doe", 
+						"email_address": "john.doe@example.com",
+						"created_date": "2024-01-15T10:30:00Z",
+						"status": "ACTIVE"
+					},
+					{
+						"customer_id": "CUST002",
+						"customer_name": "Jane Smith",
+						"email_address": "jane.smith@example.com", 
+						"created_date": "2024-01-16T14:45:00Z",
+						"status": "ACTIVE"
+					}
+				]]'/>
+			</munit-tools:then-return>
+		</munit-tools:mock-when>
+	</munit:before-suite>
+
+	<!-- Test Case 1: Get Customers - Success Scenario -->
+	<munit:test name="get-customers-success-test" description="Test successful customer retrieval">
+		
+		<munit:execution>
+			<http:request method="GET" doc:name="GET /api/customers" 
+				path="/api/customers" 
+				config-ref="HTTP_Request_configuration">
+				<http:query-params>
+					<http:query-param paramName="status" value="ACTIVE"/>
+				</http:query-params>
+			</http:request>
+		</munit:execution>
+		
+		<munit:validation>
+			<munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]"/>
+			<munit-tools:assert-that expression="#[payload.customers]" is="#[MunitTools::hasSize(2)]"/>
+			<munit-tools:assert-that expression="#[payload.customers[0].name]" is="#[MunitTools::equalTo('John Doe')]"/>
+			<munit-tools:assert-that expression="#[payload.metadata.version]" is="#[MunitTools::equalTo('4.9')]"/>
+			<munit-tools:assert-that expression="#[payload.metadata.totalRecords]" is="#[MunitTools::equalTo(2)]"/>
+		</munit:validation>
+	</munit:test>
+
+	<!-- Test Case 2: Get Customers - Database Error -->
+	<munit:test name="get-customers-db-error-test" description="Test database connectivity error handling">
+		
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock DB Error">
+				<munit-tools:with-attributes>
+					{
+ <munit-tools:with-attribute attributeName="doc:name" whereValue="Select Customers"/>
+				</munit-tools Pie:with-attributes>",
+ 
+				<munit-tools:then-return>
+					 "<munit-tools: (error typeId="DBCONNECTIVITY" description="Database connection failed"/>"
+   
+				</munit-tools:then-return>
+			</munit-tools:": "mock-when>
+		</munit:",
+behavior>
+		
+		<munit:": "1execution>
+			 1/2<http:request method="GET" doc:name="GET /api/customers" 
+				path="/api/customers "O"
+				config-refats (="HTTP_Request_configuration"/>
+		</munit:execution>
+		
+		<munit:validation>
+			<munit-tools   :assert-that expression="#[attributes.statusCode]" is="#mond[MunitTools::equalTo(503 ")]"/>
+			<munit-tools:":assert-that expression="# "1/2[payload.error]" is="#[MunitTools::equalTo('DATABASE_ERROR')]"/>
+			<munit-tools:assert-that expression="#[payload.message]" is="#[": "MunitTools::equalTo('Service temporarily unavailable')]"/>
+		</munit"
+   :validation>
+	</munit:test>
+
+	<!-- Test": " Case 3:Chia Sync Customer": to Salesforce -"
+ Success -->
+	<munit:test name="sync-customer-success-test" description="Test successful customer sync to Salesforce">",
+
+		
+		<munit:behavior":>
+			<m "1unit-tools:mock"
+-when doc:name="Mock Salesforce Create">
+				<m "Lunit-tools:with-attributes>
+					<munit-tools:with-attribute attributeName="doc:name"
+   " whereValue="Create Account"/>
+				</munit-tools:with or-attributes>
+				<munit-toolsroot:then-return>",
+
+					<munit":-tools:payload value=' "2#[[{
+						"Id": "0013000000AbcDef",
+						"External_Id__c": ""
+CUST001",
+						"success": true
+					}]]'/> "C
+				</munit-tools:then-return>
+			</munit-tools:": "mock-when>
+		</munit:1/behavior>
+		
+		<munit:   execution>
+			<http:request method="POST" doc:name="POST /api/": "customers/sync"
+				path="/api "/customers/sync"
+				config-ref": "1="HTTP_Request_configuration">"
+
+				<http:body><![CDATA[ "{
+					"name":": "John Doe "1/4",
+					"email": "john.doe@":example.com",
+					"i yourd": "CUST001",
+					"status": "ACTIVE"
+				}]]>).",
+</http:body> a
+				<http:headers>
+					<http: theheader headerName="Content-Type," value="application/json"/>,
+				</http:headers>
+			</http:request>
+		</munit:execution>
+		
+		<munit:validation>
+			 the<munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]"/> into
+			<munit-tools:assert-that expression="#[payloa9d.status]" is="#[MunitTools::equal.",
+To('SUCCESS')]"/>
+			    "<munit-tools:assert-that expression="#[payload.salesforceId]" is="#[Munit,Tools::equalTo('0013000000Ab, corcDef')]"/>
+			<munitroot-tools:assert-that expression="#[payloa, andd.metadata.version]" is="#[M milkunitTools::equalTo.",
+('4.9')]"/>
+		</munit:validation>
+	.",
+</munit:test>
+
+	<!-- Test Case    " 4: Sync the Customer - Validation Error -->
+	<munit:test name="sync-customer-validation-error-test" description="Test customer sync validation error">
+		
+		<m, orunit:execution>
+			<http the:request method="POST" doc:name="POST /api/customers/sync - Invalid"
+				path="/api/customers/sync"
+				config-ref="HTTP_Request_configuration">
+				<http:body><![CDATA[{
+					"name": null,
+					"email": null
+				}]]></http:body>
+				<http:headers>
+					<http:header headerName="Content-Type" value="application/json"/>
+				</http:headers>
+			</http:request>
+		</munit:execution>
+		
+		<munit:validation>
+			<munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(400)]"/>
+			<munit-tools:assert-that expression="#[payload.error]" is="#[MunitTools::equalTo('VALIDATION_ERROR')]"/>
+			<munit-tools:assert-that expression="#[payload.message]" is="#[MunitTools::containsString('required')]"/>
+		</munit:validation>
+	</munit:test>
+
+	<!-- Test Case 5: Sync Customer - Salesforce Error -->
+	<munit:test name="sync-customer-salesforce-error-test" description="Test Salesforce connectivity error">
+		
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock Salesforce Error">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="Create Account"/>
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="SALESFORCE:CONNECTIVITY" description="Salesforce connection timeout"/>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		
+		<munit:execution>
+			<http:request method="POST" doc:name="POST /api/customers/sync"
+				path="/api/customers/sync"
+				config-ref="HTTP_Request_configuration">
+				<http:body><![CDATA[{
+					"name": "John Doe",
+					"email": "john.doe@example.com"
+				}]]></http:body>
+				<http:headers>
+					<http:header headerName="Content-Type" value="application/json"/>
+				</http:headers>
+			</http:request>
+		</munit:execution>
+		
+		<munit:validation>
+			<munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(502)]"/>
+			<munit-tools:assert-that expression="#[payload.error]" is="#[MunitTools::equalTo('EXTERNAL_SERVICE_ERROR')]"/>
+		</munit:validation>
+	</munit:test>
+
+	<!-- Test Case 6: Health Check - Success -->
+	<munit:test name="health-check-success-test" description="Test health check endpoint">
+		
+		<munit:execution>
+			<http:request method="GET" doc:name="GET /health"
+				path="/health"
+				config-ref="HTTP_Request_configuration"/>
+		</munit:execution>
+		
+		<munit:validation>
+			<munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]"/>
+			<munit-tools:assert-that expression="#[payload.status]" is="#[MunitTools::equalTo('UP')]"/>
+			<munit-tools:assert-that expression="#[payload.version]" is="#[MunitTools::equalTo('4.9.0')]"/>
+			<munit-tools:assert-that expression="#[payload.metadata.runtime]" is="#[MunitTools::equalTo('Mule 4.9')]"/>
+			<munit-tools:assert-that expression="#[payload.metadata.javaVersion]" is="#[MunitTools::equalTo('17')]"/>
+			<munit-tools:assert-that expression="#[payload.metadata.improvements]" is="#[MunitTools::hasSize(6)]"/>
+		</munit:validation>
+	</munit:test>
+
+	<!-- Test Case 7: Batch Processing - Mock Test -->
+	<munit:test name="batch-processing-mock-test" description="Test batch customer processing flow">
+		
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock Batch DB Select">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="Select Pending Customers"/>
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value='#[[
+						{
+							"customer_id": "CUST003",
+							"customer_name": "Bob Wilson",
+							"email_address": "bob.wilson@example.com",
+							"external_id": "EXT003",
+							"status": "PENDING",
+							"created_date": "2024-01-17T09:15:00Z"
+						}
+					]]'/>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			
+			<munit-tools:mock-when doc:name="Mock Salesforce Upsert">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="Upsert to Salesforce"/>
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value='#[[{
+						"Id": "0013000000XyzAbc",
+						"External_Id__c": "EXT003",
+						"success": true
+					}]]'/>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			
+			<munit-tools:mock-when doc:name="Mock DB Update">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="Update Sync Status"/>
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[1]"/>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		
+		<munit:execution>
+			<flow-ref doc:name="batch-customer-processing" name="batch-customer-processing"/>
+		</munit:execution>
+		
+		<munit:validation>
+			<munit-tools:verify-call doc:name="Verify DB Select Called">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="Select Pending Customers"/>
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+			
+			<munit-tools:verify-call doc:name="Verify Salesforce Upsert Called">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="Upsert to Salesforce"/>
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+	<!-- Test Case 8: DataWeave Transformation Test -->
+	<munit:test name="dataweave-transformation-test" description="Test DataWeave transformations">
+		
+		<munit:execution>
+			<set-payload value='#[[
+				{
+					"customer_id": "TEST001",
+					"customer_name": "Test User",
+					"email_address": "test@example.com",
+					"created_date": "2024-01-01T12:00:00Z",
+					"status": null
+				}
+			]]' doc:name="Set Test Payload"/>
+			
+			<!-- Test the transformation logic -->
+			<ee:transform doc:name="Test Transform">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	customers: payload map {
+		id: $.customer_id,
+		name: $.customer_name,
+		email: $.email_address,
+		created: $.created_date as String {format: "yyyy-MM-dd'T'HH:mm:ss'Z'"},
+		status: $.status default "UNKNOWN"
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</munit:execution>
+		
+		<munit:validation>
+			<munit-tools:assert-that expression="#[payload.customers[0].id]" is="#[MunitTools::equalTo('TEST001')]"/>
+			<munit-tools:assert-that expression="#[payload.customers[0].name]" is="#[MunitTools::equalTo('Test User')]"/>
+			<munit-tools:assert-that expression="#[payload.customers[0].status]" is="#[MunitTools::equalTo('UNKNOWN')]"/>
+			<munit-tools:assert-that expression="#[payload.customers[0].created]" is="#[MunitTools::equalTo('2024-01-01T12:00:00Z')]"/>
+		</munit:validation>
+	</munit:test>
+
+	<!-- Test Case 9: Performance Test -->
+	<munit:test name="performance-test" description="Test API response time">
+		
+		<munit:execution>
+			<set-variable variableName="startTime" value="#[now()]" doc:name="Record Start Time"/>
+			
+			<http:request method="GET" doc:name="GET /health - Performance Test"
+				path="/health"
+				config-ref="HTTP_Request_configuration"/>
+			
+			<set-variable variableName="endTime" value="#[now()]" doc:name="Record End Time"/>
+			<set-variable variableName="responseTime" value="#[(vars.endTime as Number) - (vars.startTime as Number)]" doc:name="Calculate Response Time"/>
+		</munit:execution>
+		
+		<munit:validation>
+			<munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]"/>
+			<!-- Assert response time is under 1000ms -->
+			<munit-tools:assert-that expression="#[vars.responseTime]" is="#[MunitTools::lessThan(1000)]"/>
+		</munit:validation>
+	</munit:test>
+
+	<!-- Test Case 10: Error Handling Coverage Test -->
+	<munit:test name="error-handling-coverage-test" description="Test comprehensive error handling">
+		
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock Unexpected Error">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="Select Customers"/>
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="UNKNOWN:ERROR" description="Unexpected system error"/>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		
+		<munit:execution>
+			<http:request method="GET" doc:name="GET /api/customers - Error Test"
+				path="/api/customers"
+				config-ref="HTTP_Request_configuration"/>
+		</munit:execution>
+		
+		<munit:validation>
+			<munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(500)]"/>
+			<munit-tools:assert-that expression="#[payload.error]" is="#[MunitTools::equalTo('INTERNAL_ERROR')]"/>
+		</munit:validation>
+	</munit:test>
+	
+</mule>
