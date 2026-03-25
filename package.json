@@ -1,0 +1,27 @@
+{
+  "name": "mulesoft-migration-demo",
+  "version": "1.0.0",
+  "description": "Demo showcasing AI-accelerated Mule 4.3 to 4.9 migration using MuleSoft Agentforce and MCP Server",
+  "main": "demo-script.js",
+  "scripts": {
+    "demo:start": "node demo-script.js",
+    "demo:install": "bash setup/install-mcp-server.sh",
+    "demo:clean": "rm -rf node_modules && npm install"
+  },
+  "keywords": [
+    "mulesoft",
+    "migration",
+    "agentforce",
+    "mcp-server",
+    "ai",
+    "automation"
+  ],
+  "author": "MuleSoft",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "@mulesoft/mcp-server": "^1.0.0"
+  }
+}
